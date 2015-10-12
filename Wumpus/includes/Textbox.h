@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 #include "TextChar.h"
+#include "Button.h"
+#include "../includes/ScrollObserver.h"
+
 
 class Graphics;
 
@@ -22,7 +25,7 @@ struct StringToken{
 	}
 };
 
-class Textbox {
+class Textbox : public OnClickObserver, public ScrollObserver {
 public:
 								Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLuint fontSize = 24 );
 								~Textbox();
@@ -34,20 +37,31 @@ public:
 	void						setBorderColor( glm::vec3 color );
 	void						setBackgroundColor( glm::vec3 color );
 	void						render( Graphics& graphics );
+	virtual	void				onClick( glm::vec2 pos );
+	virtual void				onRelease( glm::vec2 pos );
+	virtual void				onMouseMovement( glm::vec2 pos );
+	virtual void				onHorizontalScroll( GLfloat offset, glm::vec2 pos );
+	virtual void				onVerticalScroll( GLfloat offset, glm::vec2 pos );
 private:
 	glm::vec2					size;
-	glm::vec2					pos;
+	glm::vec2					pos, btnSize;
 	std::vector<StringToken>	tokens;
 	font						fontType;
 	GLfloat						paddingHorizontal, paddingVertical;
 	GLfloat						borderSize, fontSize, lineSpacing;
 	glm::vec3					textColor, borderColor, backgroundColor;
 	GLfloat						currHorizontalOffset;
-	GLuint						currentLineNumber, firstLineInView;
+	GLint						currentLineNumber, firstLineInView;
+	Button						bScrollUp, bScrollDown, bScrollBar;
+	glm::vec2					currentMousePos;
+	GLfloat						mouseClickOffset;
 
 	GLfloat						getStringWidth( const std::string& str ) const;
-	GLuint						getNumLinesThatFit() const;
+	GLint						getNumLinesThatFit() const;
 	GLuint						getFirstTokenOnLine( GLuint line );
+	void						updateScrollBar();
+	void						dragScrollBar();
+	GLboolean					isOverView( glm::vec2 pos ) const;
 };
 
 #endif // TEXTBOX_H

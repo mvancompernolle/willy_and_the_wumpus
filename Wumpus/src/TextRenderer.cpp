@@ -28,23 +28,26 @@ TextRenderer::~TextRenderer() {
 
 }
 
-void TextRenderer::renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color, TEXT_ALIGNMENT alignment ) {
+void TextRenderer::renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color,
+	HOR_ALIGNMENT horAlign, VERT_ALIGNMENT vertAlign ) {
 	// activate corresponding render state
 	shader.use();
 	shader.setVector3f( "textColor", color );
 	glActiveTexture( GL_TEXTURE0 );
 	glBindVertexArray( VAO );
 
-	if( alignment == RIGHT_ALIGNED || alignment == CENTERED) {
+	if( horAlign == RIGHT_ALIGNED || horAlign == HOR_CENTERED) {
 		// offset x with size of text
 		GLint offsetX = 0;
 		for ( int i = 0; i < text.length(); ++i ) {
 			offsetX += ( characters.at( text[i] ).advance >> 6 ) * scale;
 		}
-		pos.x -= alignment == RIGHT_ALIGNED ?  offsetX : offsetX / 2.0f;
-		if ( alignment == CENTERED ) {
-			pos.y -= characters.at( 'H' ).bearing.y / 2.0f * scale;
-		}
+		pos.x -= horAlign == RIGHT_ALIGNED ?  offsetX : offsetX / 2.0f;
+	}
+	if ( vertAlign == VERT_CENTERED ) {
+		pos.y -= characters.at( 'H' ).bearing.y / 2.0f * scale;
+	} else if ( vertAlign == ABOVE ) {
+		pos.y -= characters.at( 'H' ).bearing.y * scale;
 	}
 
 	// iterate through all characters

@@ -11,7 +11,6 @@ Input::~Input()
 void Input::setKeyPressed( unsigned int type )
 {
 	keysPressed[inputMap[type]] = GL_TRUE;
-	notifyClick( glm::vec2( mouseX, mouseY ) );
 }
 
 void Input::setKeyProcessed( unsigned int type )
@@ -26,6 +25,11 @@ void Input::setKeyReleased( unsigned int type )
 	keysPressed[inputMap[type]] = GL_FALSE;
 	keysProcessed[inputMap[type]] = GL_FALSE;
 	notifyRelease( glm::vec2( mouseX, mouseY ) );
+}
+
+void Input::setMouseButtonClicked( unsigned int type ) {
+	keysPressed[inputMap[type]] = GL_TRUE;
+	notifyClick( glm::vec2( mouseX, mouseY ) );
 }
 
 GLboolean Input::getKeyPressed( unsigned int type ) const
@@ -46,4 +50,13 @@ void Input::setMousePos( GLfloat x, GLfloat y ) {
 
 glm::vec2 Input::getMousePos() const {
 	return glm::vec2( mouseX, mouseY );
+}
+
+void Input::scrollOffset( GLfloat x, GLfloat y ) {
+	if ( x != 0 ) {
+		notifyHorizontalScroll( x, glm::vec2( mouseX, mouseY ) );
+	}
+	if ( y != 0 ) {
+		notifyVerticalScroll( y, glm::vec2( mouseX, mouseY ) );
+	}
 }

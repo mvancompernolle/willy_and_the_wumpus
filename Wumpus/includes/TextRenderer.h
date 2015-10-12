@@ -22,7 +22,8 @@ public:
 
 								TextRenderer( GLuint width, GLuint height );
 								~TextRenderer();
-	void						renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color = glm::vec3( 1.0f ), TEXT_ALIGNMENT alignment = LEFT_ALIGNED );
+	void						renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color = glm::vec3( 1.0f ),
+									HOR_ALIGNMENT horAlign = LEFT_ALIGNED, VERT_ALIGNMENT vertAlign = BELOW );
 private:
 	GLuint						VAO, VBO;
 };

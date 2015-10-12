@@ -16,7 +16,8 @@ public:
 						GLFWGraphics( sfw::string windowName, GLuint width, GLuint height ); // set dimensions constructor
 						~GLFWGraphics();
 	virtual void		setBackgroundColor( glm::vec3 color );
-	virtual void		renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color = glm::vec3( 1.0f ), TEXT_ALIGNMENT alignment = LEFT_ALIGNED );
+	virtual void		renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color = glm::vec3( 1.0f ),
+								HOR_ALIGNMENT horAlign = LEFT_ALIGNED, VERT_ALIGNMENT vertAlign = BELOW );
 	virtual void		draw2DTexture( const Texture& texture, glm::vec2 pos, glm::vec2 size, GLfloat rot, glm::vec4 color = glm::vec4( 1.0f ), GLboolean flipH = GL_FALSE );
 	virtual void		draw2DBox( glm::vec2 pos, glm::vec2 size, glm::vec3 color, GLfloat rot = 0.0f );
 	virtual GLboolean	windowIsValid() const;

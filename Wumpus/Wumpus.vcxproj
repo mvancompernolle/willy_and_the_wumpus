@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OnScrollSubject.cpp" />
+    <ClCompile Include="src\ScrollObserver.cpp" />
     <ClCompile Include="src\OnClickSubject.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\OnClickObserver.cpp" />
@@ -60,6 +62,8 @@
     <ClInclude Include="includes\Textbox.h" />
     <ClInclude Include="includes\OnClickObserver.h" />
     <ClInclude Include="includes\OnClickSubject.h" />
+    <ClInclude Include="includes\ScrollObserver.h" />
+    <ClInclude Include="includes\OnScrollSubject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\box.fs" />

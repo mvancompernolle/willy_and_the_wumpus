@@ -80,8 +80,9 @@ void GLFWGraphics::setBackgroundColor( glm::vec3 color ) {
 	glClearColor( color.x, color.y, color.z, 1.0f );
 }
 
-void GLFWGraphics::renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color, TEXT_ALIGNMENT alignment ){
-	textRenderer->renderText( characters, text, pos, scale, color, alignment );
+void GLFWGraphics::renderText( const font& characters, sfw::string text, glm::vec2 pos, GLfloat scale, glm::vec3 color,
+	HOR_ALIGNMENT horAlign, VERT_ALIGNMENT vertAlign ){
+	textRenderer->renderText( characters, text, pos, scale, color, horAlign, vertAlign );
 }
 
 void GLFWGraphics::draw2DTexture( const Texture& texture, glm::vec2 pos, glm::vec2 size, GLfloat rot, glm::vec4 color, GLboolean flipH ){

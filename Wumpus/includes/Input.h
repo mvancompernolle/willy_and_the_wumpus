@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 #include <map>
 #include "OnClickSubject.h"
+#include "OnScrollSubject.h"
 
 enum INPUT_TYPE {
 	KEY_UNKOWN, KEY_SPACE, KEY_APOSTROPHE, KEY_COMMA, KEY_MINUS, KEY_PERIOD, KEY_SLASH, KEY_0, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_SEMICOLON, KEY_EQUAL,
@@ -18,15 +19,17 @@ enum INPUT_TYPE {
 	MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT, MOUSE_BUTTON_3, MOUSE_BUTTON_4, MOUSE_BUTTON_5, MOUSE_BUTTON_6, MOUSE_BUTTON_7, MOUSE_BUTTON_8, NUM_INPUTS
 };
 
-class Input : public OnClickSubject {
+class Input : public OnClickSubject, public OnScrollSubject {
 public:
 	virtual								~Input();
 	virtual	void						setKeyPressed( unsigned int type );
 	virtual	void						setKeyProcessed( unsigned int type );
 	virtual	void						setKeyReleased( unsigned int type );
+	virtual	void						setMouseButtonClicked( unsigned int type );
 	virtual	GLboolean					getKeyPressed( unsigned int type ) const;
 	virtual	GLboolean					keyNotProcessed( unsigned int type ) const;
 	virtual	void						setMousePos( GLfloat x, GLfloat y );
+	virtual void						scrollOffset( GLfloat x, GLfloat y );
 	virtual glm::vec2					getMousePos() const;
 protected:
 										Input();
