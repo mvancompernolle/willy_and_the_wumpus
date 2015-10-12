@@ -19,17 +19,62 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\OnClickSubject.cpp" />
+    <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\OnClickObserver.cpp" />
+    <ClCompile Include="src\GLFWInput.cpp" />
+    <ClCompile Include="src\BoxRenderer.cpp" />
+    <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\GLFWGraphics.cpp" />
+    <ClCompile Include="src\Graphics.cpp" />
     <ClCompile Include="src\irrKlangAudio.cpp" />
     <ClCompile Include="src\Audio.cpp" />
-    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\ServiceLocator.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\string.cpp" />
+    <ClCompile Include="src\TextRenderer.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Textbox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Button.h" />
+    <ClInclude Include="includes\GLFWInput.h" />
+    <ClInclude Include="includes\BoxRenderer.h" />
+    <ClInclude Include="includes\GLFWGraphics.h" />
+    <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\Audio.h" />
-    <ClInclude Include="includes\Game.h" />
+    <ClInclude Include="includes\TextAlignment.h" />
+    <ClInclude Include="includes\ResourceManager.h" />
+    <ClInclude Include="includes\ServiceLocator.h" />
+    <ClInclude Include="includes\Shader.h" />
+    <ClInclude Include="includes\SpriteRenderer.h" />
     <ClInclude Include="includes\string.h" />
     <ClInclude Include="includes\irrKlangAudio.h" />
+    <ClInclude Include="includes\TextChar.h" />
+    <ClInclude Include="includes\TextRenderer.h" />
+    <ClInclude Include="includes\Texture.h" />
+    <ClInclude Include="includes\Input.h" />
+    <ClInclude Include="includes\Textbox.h" />
+    <ClInclude Include="includes\OnClickObserver.h" />
+    <ClInclude Include="includes\OnClickSubject.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\box.fs" />
+    <None Include="resources\shaders\box.vs" />
+    <None Include="resources\shaders\sprite.fs" />
+    <None Include="resources\shaders\sprite.vs" />
+    <None Include="resources\shaders\text.fs" />
+    <None Include="resources\shaders\text.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="resources\fonts\OCRAEXT.TTF" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\images\button_pressed.png" />
+    <Image Include="resources\images\button_released.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{70083E01-41BE-4AEF-94F3-EFD47BDE09E4}</ProjectGuid>

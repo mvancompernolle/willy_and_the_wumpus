@@ -1,0 +1,12 @@
+#pragma once
+
+#ifndef TEXT_ALIGNMENT_H
+#define TEXT_ALIGNMENT_H
+
+enum TEXT_ALIGNMENT {
+	LEFT_ALIGNED,
+	RIGHT_ALIGNED,
+	CENTERED
+};
+
+#endif // TEXT_ALIGNMENT_H
