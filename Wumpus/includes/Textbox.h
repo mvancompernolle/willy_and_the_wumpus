@@ -27,7 +27,7 @@ struct StringToken{
 
 class Textbox : public OnClickObserver, public ScrollObserver {
 public:
-								Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLuint fontSize = 24 );
+								Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLfloat fontScale = 1.0f );
 								~Textbox();
 	void						addText( std::string newText );
 	void						addNewLine();
@@ -48,7 +48,7 @@ private:
 	std::vector<StringToken>	tokens;
 	font						fontType;
 	GLfloat						paddingHorizontal, paddingVertical;
-	GLfloat						borderSize, fontSize, lineSpacing;
+	GLfloat						borderSize, fontScale, lineSpacing;
 	glm::vec3					textColor, borderColor, backgroundColor;
 	GLfloat						currHorizontalOffset;
 	GLint						currentLineNumber, firstLineInView;

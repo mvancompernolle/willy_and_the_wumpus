@@ -32,7 +32,7 @@ int main() {
 	// load default font
 	ResourceManager::loadFont( "times_new_roman.ttf", "default", 36.0f );
 
-	Textbox textBox( glm::vec2( 20.0f ), glm::vec2( 1000.0f, 800.0f ), 2, ResourceManager::getFont( "default" ), 12.0f );
+	Textbox textBox( glm::vec2( 20.0f ), glm::vec2( 1000.0f, 800.0f ), 2, ResourceManager::getFont( "default" ), 0.25f );
 	textBox.setBorderColor( glm::vec3( 0.0f, 0.0f, 1.0f ) );
 	textBox.setTextColor( glm::vec3( 0.0f ) );
 	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
@@ -51,7 +51,7 @@ int main() {
 	input->addOnClickObserver( &textBox );
 	input->addOnScrollObserver( &textBox );
 
-	Textbox textBox2( glm::vec2( 1200.0f, 100.0f ), glm::vec2( 315.0f ), 2, ResourceManager::getFont( "default" ), 36.0f );
+	Textbox textBox2( glm::vec2( 1200.0f, 100.0f ), glm::vec2( 315.0f ), 2, ResourceManager::getFont( "default" ), 1.0f );
 	textBox2.addText( "hi" );
 	input->addOnClickObserver( &textBox2 );
 	input->addOnScrollObserver( &textBox2 );

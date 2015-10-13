@@ -2,8 +2,8 @@
 #include "../includes/Graphics.h"
 #include "../includes/ResourceManager.h"
 
-Textbox::Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLuint fontSize ) :
-	pos( pos ), size( size ), borderSize( borderSize ), fontType( fontType ), fontSize( fontSize ), borderColor( glm::vec3( 0.0f ) ),
+Textbox::Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLfloat fontScale ) :
+	pos( pos ), size( size ), borderSize( borderSize ), fontType( fontType ), fontScale( fontScale ), borderColor( glm::vec3( 0.0f ) ),
 	backgroundColor( glm::vec3( 1.0f ) ), textColor( glm::vec3( 0.0f ) ), paddingHorizontal( 8.0f ), paddingVertical( 8.0f ), currHorizontalOffset( 0.0f ),
 	currentLineNumber( 0 ), lineSpacing( 1.5f ), firstLineInView( 0 ), btnSize( 32.0f ), currentMousePos( glm::vec2( -1 ) ), mouseClickOffset( 0.0f ) {
 	// set scroll button textures
@@ -56,7 +56,7 @@ void Textbox::addText( std::string newText ) {
 
 	// loop through each token of text
 	std::string delimiter = " ";
-	GLfloat delimOffset = fontType[32].advance >> 6;
+	GLfloat delimOffset = getStringWidth(" ");
 	std::string token;
 	GLuint start = 0;
 	GLuint end = newText.find( delimiter );
@@ -138,9 +138,9 @@ void Textbox::render( Graphics& graphics ) {
 	// render visible lines of text
 	for ( int i = start; i < end; ++i ) {
 		StringToken& token = tokens[i];
-		GLfloat yPos = pos.y + paddingVertical + borderSize + fontType['H'].bearing.y * ( ( token.lineNum - firstLineInView ) * lineSpacing );
+		GLfloat yPos = pos.y + paddingVertical + borderSize + fontType['H'].bearing.y * ( ( token.lineNum - firstLineInView ) * lineSpacing * fontScale );
 		graphics.renderText( fontType, sfw::string( token.str.c_str() ),
-			glm::vec2( pos.x + paddingHorizontal + borderSize + token.xPos, yPos ), 1.0f, textColor );
+			glm::vec2( pos.x + paddingHorizontal + borderSize + token.xPos, yPos ), fontScale, textColor );
 	}
 
 	// render scroll buttons
@@ -152,13 +152,13 @@ void Textbox::render( Graphics& graphics ) {
 GLfloat	Textbox::getStringWidth( const std::string& str ) const {
 	GLfloat width = 0;
 	for ( char c : str ) {
-		width += fontType.at( c ).advance >> 6;
+		width += (fontType.at( c ).advance >> 6) * fontScale;
 	}
 	return width;
 }
 
 GLint Textbox::getNumLinesThatFit() const {
-	GLuint num = ( ( size.y - ( paddingVertical + borderSize ) * 2.0f ) ) / ( lineSpacing * fontType.at( 'H' ).bearing.y );
+	GLuint num = ( ( size.y - ( paddingVertical + borderSize ) * 2.0f ) ) / ( lineSpacing * fontType.at( 'H' ).bearing.y * fontScale );
 	return num;
 }
 
@@ -244,16 +244,18 @@ void Textbox::updateScrollBar() {
 }
 
 void Textbox::dragScrollBar() {
-	GLfloat yOffset = currentMousePos.y - ( mouseClickOffset + bScrollBar.getPos().y );
-	GLfloat totalYSize = size.y - ( borderSize + btnSize.y ) * 2.0f;
-	GLfloat lineRatio = yOffset / totalYSize;
-	firstLineInView = lineRatio * currentLineNumber + firstLineInView;
-	if ( firstLineInView < 0 ) {
-		firstLineInView = 0;
-	} else if ( firstLineInView > currentLineNumber + 1 - getNumLinesThatFit() ) {
-		firstLineInView = currentLineNumber + 1 - getNumLinesThatFit();
+	if ( currentLineNumber + 1 > getNumLinesThatFit() ) {
+		GLfloat yOffset = currentMousePos.y - ( mouseClickOffset + bScrollBar.getPos().y );
+		GLfloat totalYSize = size.y - ( borderSize + btnSize.y ) * 2.0f;
+		GLfloat lineRatio = yOffset / totalYSize;
+		firstLineInView = lineRatio * currentLineNumber + firstLineInView;
+		if ( firstLineInView < 0 ) {
+			firstLineInView = 0;
+		} else if ( firstLineInView > currentLineNumber + 1 - getNumLinesThatFit() ) {
+			firstLineInView = currentLineNumber + 1 - getNumLinesThatFit();
+		}
+		updateScrollBar();
 	}
-	updateScrollBar();
 }
 
 GLboolean Textbox::isOverView( glm::vec2 pos ) const {
