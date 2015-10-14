@@ -23,6 +23,7 @@ public:
 	virtual void		draw2DBox( glm::vec2 pos, glm::vec2 size, glm::vec3 color, GLfloat rot = 0.0f ) = 0;
 	virtual GLboolean	windowIsValid() const = 0;
 	virtual void		swapBuffers() = 0;
+	glm::vec2			getDimensions() const;
 protected:
 	GLuint				windowWidth, windowHeight;
 };

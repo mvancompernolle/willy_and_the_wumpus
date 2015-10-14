@@ -17,6 +17,9 @@ enum ButtonState {
 
 class Button : public OnClickObserver {
 public:
+	GLboolean				isVisible;
+
+
 							Button( glm::vec2 pos = glm::vec2(0.0f), glm::vec2 size = glm::vec2( 10.0f ) );
 							~Button();
 	virtual void			onClick( glm::vec2 pos );

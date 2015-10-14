@@ -4,8 +4,8 @@
 
 
 Button::Button( glm::vec2 pos, glm::vec2 size )
-	: pos( pos ), size( size ), text( "" ), fontScale( 1.0f ), textColor( glm::vec3( 0.0f, 0.0f, 1.0f ) ),
-	state( RELEASED ), rotation( 0.0f ), isDraggable(GL_FALSE)
+	: pos( pos ), size( size ), text( "" ), fontScale( 1.0f ), textColor( glm::vec3( 0.0f ) ),
+	state( RELEASED ), rotation( 0.0f ), isDraggable( GL_FALSE ), isVisible( GL_TRUE )
 {
 	pressedTexture = ResourceManager::loadTexture( "button_pressed.png", GL_TRUE, "btn_pressed_default" );
 	releasedTexture = ResourceManager::loadTexture( "button_released.png", GL_TRUE, "btn_released_default" );
@@ -104,17 +104,19 @@ void Button::setDraggable( GLboolean draggable ) {
 }
 
 void Button::render( Graphics& graphics ) {
-	// render button texture
-	if ( state == PRESSED ) {
-		graphics.draw2DTexture( pressedTexture, pos, size, rotation );
-	} else if ( state == RELEASED ) {
-		graphics.draw2DTexture( releasedTexture, pos, size, rotation );
-	} else {
-		graphics.draw2DTexture( hoverTexture, pos, size, rotation );
-	}
+	if ( isVisible ) {
+		// render button texture
+		if ( state == PRESSED ) {
+			graphics.draw2DTexture( pressedTexture, pos, size, rotation );
+		} else if ( state == RELEASED ) {
+			graphics.draw2DTexture( releasedTexture, pos, size, rotation );
+		} else {
+			graphics.draw2DTexture( hoverTexture, pos, size, rotation );
+		}
 
-	// render button text
-	graphics.renderText( fontType, sfw::string(text.c_str()), pos + size / 2.0f, 1.2f, textColor, HOR_CENTERED, VERT_CENTERED );
+		// render button text
+		graphics.renderText( fontType, sfw::string( text.c_str() ), pos + size / 2.0f, fontScale, textColor, HOR_CENTERED, VERT_CENTERED );
+	}
 }
 
 void Button::setOnClickFunction( std::function<void()> fcn ) {

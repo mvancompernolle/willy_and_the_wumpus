@@ -14,7 +14,7 @@ public:
 	virtual void stopSound( std::string sound );
 	virtual void setMasterVolume( GLfloat volume );
 	virtual void setAllSoundsPaused( GLboolean isPaused );
-	virtual void clearSounds();
+	virtual void stopAllSounds();
 
 private:
 	irrklang::ISoundEngine*	soundEngine;

@@ -2,7 +2,7 @@
 #include "../includes/Graphics.h"
 #include "../includes/ResourceManager.h"
 
-Textbox::Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font& fontType, GLfloat fontScale ) :
+Textbox::Textbox( glm::vec2 pos, glm::vec2 size, GLuint borderSize, const font& fontType, GLfloat fontScale ) :
 	pos( pos ), size( size ), borderSize( borderSize ), fontType( fontType ), fontScale( fontScale ), borderColor( glm::vec3( 0.0f ) ),
 	backgroundColor( glm::vec3( 1.0f ) ), textColor( glm::vec3( 0.0f ) ), paddingHorizontal( 8.0f ), paddingVertical( 8.0f ), currHorizontalOffset( 0.0f ),
 	currentLineNumber( 0 ), lineSpacing( 1.5f ), firstLineInView( 0 ), btnSize( 32.0f ), currentMousePos( glm::vec2( -1 ) ), mouseClickOffset( 0.0f ) {
@@ -46,7 +46,7 @@ Textbox::Textbox( glm::vec2 pos, glm::vec2 size, GLfloat borderSize, const font&
 Textbox::~Textbox() {
 }
 
-void Textbox::addText( std::string newText ) {
+void Textbox::addText( std::string newText, GLboolean newLine ) {
 	if ( newText.size() == 0 )
 		return;
 
@@ -87,6 +87,10 @@ void Textbox::addText( std::string newText ) {
 	}
 	tokens.push_back( StringToken( token, currHorizontalOffset, currentLineNumber ) );
 	currHorizontalOffset += width + delimOffset;
+
+	if ( newLine ) {
+		addNewLine();
+	}
 }
 
 void Textbox::addNewLine() {
@@ -127,7 +131,7 @@ void Textbox::render( Graphics& graphics ) {
 	// render border rectangle
 	graphics.draw2DBox( pos, size, borderColor );
 	// render background rectangle 
-	graphics.draw2DBox( pos + borderSize, size - borderSize * 2.0f, backgroundColor );
+	graphics.draw2DBox( pos + (GLfloat) borderSize, size - borderSize * 2.0f, backgroundColor );
 
 	if ( tokens.size() == 0 )
 		return;

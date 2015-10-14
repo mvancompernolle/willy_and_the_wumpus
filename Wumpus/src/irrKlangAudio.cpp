@@ -27,6 +27,6 @@ void irrKlangAudio::setAllSoundsPaused( GLboolean isPaused ) {
 	soundEngine->setAllSoundsPaused( isPaused );
 }
 
-void irrKlangAudio::clearSounds() {
+void irrKlangAudio::stopAllSounds() {
 	soundEngine->stopAllSounds();
 }

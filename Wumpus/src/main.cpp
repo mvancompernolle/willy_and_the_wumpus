@@ -5,8 +5,9 @@
 #include "../includes/GLFWGraphics.h"
 #include "../includes/GLFWInput.h"
 #include "../includes/ResourceManager.h"
-#include "../includes/Textbox.h"
-#include "../includes/Button.h"
+#include "../includes/ServiceLocator.h"
+#include "../includes/irrKlangAudio.h"
+#include "../includes/HuntTheWumpus.h"
 
 // input callbacks
 void keyCallBack( GLFWwindow* window, GLint key, GLint scanCode, GLint action, GLint mode );
@@ -28,42 +29,14 @@ int main() {
 	input = new GLFWInput();
 	GLFWGraphics* gr = new GLFWGraphics( "Willy and the Wumpus", 1800, 980 );
 	Graphics *graphics = gr;
+	Audio* audio = new irrKlangAudio();
+
+	ServiceLocator::provideGraphics( graphics );
+	ServiceLocator::provideInput( input );
+	ServiceLocator::provideAudio( audio );
 
 	// load default font
 	ResourceManager::loadFont( "times_new_roman.ttf", "default", 36.0f );
-
-	Textbox textBox( glm::vec2( 20.0f ), glm::vec2( 1000.0f, 800.0f ), 2, ResourceManager::getFont( "default" ), 0.25f );
-	textBox.setBorderColor( glm::vec3( 0.0f, 0.0f, 1.0f ) );
-	textBox.setTextColor( glm::vec3( 0.0f ) );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pear and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pear and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pear and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pare and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pare and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pare and i really do not care." );
-	textBox.addText( "Starting the Sentence: hello there I am a prickly pair and i really do not care." );
-	input->addOnClickObserver( &textBox );
-	input->addOnScrollObserver( &textBox );
-
-	Textbox textBox2( glm::vec2( 1200.0f, 100.0f ), glm::vec2( 315.0f ), 2, ResourceManager::getFont( "default" ), 1.0f );
-	textBox2.addText( "hi" );
-	input->addOnClickObserver( &textBox2 );
-	input->addOnScrollObserver( &textBox2 );
-
-	Button btn( glm::vec2( 1200, 500 ), glm::vec2( 300, 100 ) );
-	btn.setText( "Im a button" );
-	std::string letter = "Omg life is so crazy...";
-	btn.setOnClickFunction( [&]() {
-		textBox.addText( letter );
-		textBox2.addText( letter );
-	} );
-	input->addOnClickObserver( &btn );
 
 	// initialize mouse and keyboard
 	glfwSetInputMode( gr->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL );
@@ -71,6 +44,9 @@ int main() {
 	glfwSetMouseButtonCallback( gr->getWindow(), mouseButtonCallBack );
 	glfwSetScrollCallback( gr->getWindow(), scrollCallBack );
 	glfwSetKeyCallback( gr->getWindow(), keyCallBack );
+
+	// create game
+	HuntTheWumpus* game = new HuntTheWumpus( gr->getDimensions().x, gr->getDimensions().y );
 
 	// start the game loop
 	GLfloat dt = 0.0f, lastTime = 0.0f;
@@ -86,18 +62,19 @@ int main() {
 			dt = 0.0333f;
 		}
 
+		game->update( dt );
+
 		// render the game
 		glClear( GL_COLOR_BUFFER_BIT );
 
-		textBox.render( *graphics );
-		textBox2.render( *graphics );
-		btn.render( *graphics );
+		game->render( dt );
 
 		graphics->swapBuffers();
 	}
 
 	delete graphics;
 	delete input;
+	delete audio;
 
 	system( "pause" );
 
