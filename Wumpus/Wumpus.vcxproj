@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\HuntTheWumpus.cpp" />
     <ClCompile Include="src\OnScrollSubject.cpp" />
     <ClCompile Include="src\ScrollObserver.cpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="src\Willy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\Consts.h" />
     <ClInclude Include="includes\HuntTheWumpus.h" />
     <ClInclude Include="includes\Button.h" />
     <ClInclude Include="includes\GLFWInput.h" />
@@ -69,6 +71,7 @@
     <ClInclude Include="includes\ScrollObserver.h" />
     <ClInclude Include="includes\OnScrollSubject.h" />
     <ClInclude Include="includes\Willy.h" />
+    <ClInclude Include="includes\MainMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\box.fs" />

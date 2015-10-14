@@ -8,6 +8,8 @@
 #include "../includes/ServiceLocator.h"
 #include "../includes/irrKlangAudio.h"
 #include "../includes/HuntTheWumpus.h"
+#include "../includes/MainMenu.h"
+#include "../includes/consts.h"
 
 // input callbacks
 void keyCallBack( GLFWwindow* window, GLint key, GLint scanCode, GLint action, GLint mode );
@@ -46,11 +48,14 @@ int main() {
 	glfwSetKeyCallback( gr->getWindow(), keyCallBack );
 
 	// create game
+	STATE current = MAIN_INIT;
 	HuntTheWumpus* game = new HuntTheWumpus( gr->getDimensions().x, gr->getDimensions().y );
+	MainMenu menu( gr->getDimensions().x, gr->getDimensions().y );
 
 	// start the game loop
 	GLfloat dt = 0.0f, lastTime = 0.0f;
-	while ( graphics->windowIsValid() ) {
+	GLboolean running = GL_TRUE;
+	while ( graphics->windowIsValid() && running ) {
 		// calculate dt
 		GLfloat currentTime = glfwGetTime();
 		dt = currentTime - lastTime;
@@ -62,18 +67,38 @@ int main() {
 			dt = 0.0333f;
 		}
 
-		game->update( dt );
-
 		// render the game
 		glClear( GL_COLOR_BUFFER_BIT );
 
-		game->render( dt );
+		switch ( current ) {
+		case INIT:
+			break;
+
+		case MAIN_INIT:
+			menu.init();
+		case MAIN:
+			current = menu.getMenuState();
+			menu.render( dt );
+			break;
+
+		case PLAY:
+			game->init();
+		case GAME:
+			current = game->update( dt );
+			game->render( dt );
+			break;
+
+		case EXIT:
+			running = GL_FALSE;
+			break;
+		}
 
 		graphics->swapBuffers();
 	}
 
-	delete graphics;
+	//delete graphics;
 	delete input;
+	delete graphics;
 	delete audio;
 
 	system( "pause" );

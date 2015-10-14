@@ -12,8 +12,10 @@ OnClickSubject::~OnClickSubject()
 }
 
 void OnClickSubject::notifyClick( glm::vec2 pos ) {
-	for ( OnClickObserver*& observer : observers ) {
-		observer->onClick( pos );
+	if ( observers.size() > 0 ) {
+		for ( OnClickObserver*& observer : observers ) {
+			observer->onClick( pos );
+		}
 	}
 }
 

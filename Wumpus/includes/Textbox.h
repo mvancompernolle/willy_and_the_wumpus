@@ -31,6 +31,7 @@ public:
 								~Textbox();
 	void						addText( std::string newText, GLboolean newLine = GL_FALSE );
 	void						addNewLine();
+	void						clear();
 	void						setPadding( GLfloat horizontal, GLfloat vertical );
 	void						setTextColor( glm::vec3 color );
 	void						setLineSpacing( GLfloat spacing );

@@ -5,7 +5,7 @@
 
 #include <GL/glew.h>
 #include "Room.h"
-#include "Button.h"
+#include "Textbox.h"
 
 class Willy {
 public:
@@ -15,8 +15,8 @@ public:
 
 	Willy();
 	~Willy();
-	void move( Room rooms[], Button buttons[], GLuint selectedRoom );
-	void shoot( Room rooms[], Button buttons[] );
+	void move( Room rooms[], GLuint selectedRoom, Textbox& textBox );
+	void shoot( Room rooms[] );
 private:
 };
 

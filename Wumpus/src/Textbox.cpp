@@ -106,6 +106,12 @@ void Textbox::addNewLine() {
 	updateScrollBar();
 }
 
+void Textbox::clear() {
+	tokens.clear();
+	firstLineInView = 0;
+	currentLineNumber = 0;
+}
+
 void Textbox::setPadding( GLfloat horizontal, GLfloat vertical ) {
 	paddingHorizontal = horizontal;
 	paddingVertical = vertical;
