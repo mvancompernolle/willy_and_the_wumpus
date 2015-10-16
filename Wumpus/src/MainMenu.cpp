@@ -7,8 +7,8 @@ MainMenu::MainMenu( GLuint w, GLuint h ) {
 	height = h;
 
 	// initialize buttons
-	bExit = Button( glm::vec2( width * 0.2f, height * 0.6f ), glm::vec2( width * 0.25f, height * 0.2f ) );
-	bPlay = Button( glm::vec2( width * 0.55f, height * 0.6f ), glm::vec2( width * 0.25f, height * 0.2f ) );
+	bExit = Button( glm::vec2( width * 0.2f, height * 0.7f ), glm::vec2( width * 0.25f, height * 0.2f ) );
+	bPlay = Button( glm::vec2( width * 0.55f, height * 0.7f ), glm::vec2( width * 0.25f, height * 0.2f ) );
 	bExit.setText( "Exit Game" );
 	bPlay.setText( "Play Game" );
 	bExit.setOnClickFunction( [&]() {
@@ -17,6 +17,13 @@ MainMenu::MainMenu( GLuint w, GLuint h ) {
 	bPlay.setOnClickFunction( [&]() {
 		state = PLAY;
 	} );
+
+	// load background
+	ResourceManager::loadTexture( "cave_entrance.jpg", GL_FALSE, "cave_entrance" );
+
+	// play eerie music
+	ServiceLocator::getAudio().playSound( ResourceManager::getPath( "sounds" ) + "Intrepid.mp3", GL_TRUE );
+	ServiceLocator::getAudio().setMasterVolume( 0.5f );
 }
 
 
@@ -39,11 +46,14 @@ STATE MainMenu::getMenuState() {
 }
 
 void MainMenu::render( GLfloat dt ) {
+	// render background
+	ServiceLocator::getGraphics().draw2DTexture( ResourceManager::getTexture( "cave_entrance" ), glm::vec2( 0.0f ), glm::vec2( width, height ), 0.0f );
+
 	// render buttons
 	bPlay.render( ServiceLocator::getGraphics() );
 	bExit.render( ServiceLocator::getGraphics() );
 
 	// render game title
-	ServiceLocator::getGraphics().renderText(ResourceManager::getFont("default"), "WILLY AND THE WUMPUS!", glm::vec2( width / 2.0f, height * 0.3f ), 
-		3.0f, glm::vec3(1.0f, 0.0f, 1.0f), HOR_CENTERED, VERT_CENTERED);
+	ServiceLocator::getGraphics().renderText(ResourceManager::getFont("default"), "WILLY AND THE WUMPUS!", glm::vec2( width / 2.0f, height * 0.10f ), 
+		3.0f, glm::vec3(0.0f), HOR_CENTERED, VERT_CENTERED);
 }

@@ -9,6 +9,7 @@
 #include "../includes/irrKlangAudio.h"
 #include "../includes/HuntTheWumpus.h"
 #include "../includes/MainMenu.h"
+#include "../includes/Splash.h"
 #include "../includes/consts.h"
 
 // input callbacks
@@ -48,9 +49,10 @@ int main() {
 	glfwSetKeyCallback( gr->getWindow(), keyCallBack );
 
 	// create game
-	STATE current = MAIN_INIT;
+	STATE current = SPLASH;
 	HuntTheWumpus* game = new HuntTheWumpus( gr->getDimensions().x, gr->getDimensions().y );
 	MainMenu menu( gr->getDimensions().x, gr->getDimensions().y );
+	Splash splash( gr->getDimensions().x, gr->getDimensions().y );
 
 	// start the game loop
 	GLfloat dt = 0.0f, lastTime = 0.0f;
@@ -71,7 +73,9 @@ int main() {
 		glClear( GL_COLOR_BUFFER_BIT );
 
 		switch ( current ) {
-		case INIT:
+		case SPLASH:
+			current = splash.update( dt );
+			splash.render();
 			break;
 
 		case MAIN_INIT:
@@ -101,7 +105,7 @@ int main() {
 	delete graphics;
 	delete audio;
 
-	system( "pause" );
+	//system( "pause" );
 
 	return 0;
 }

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Splash.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\HuntTheWumpus.cpp" />
     <ClCompile Include="src\OnScrollSubject.cpp" />
@@ -43,6 +44,7 @@
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Textbox.cpp" />
     <ClCompile Include="src\Willy.cpp" />
+    <ClCompile Include="src\Wumpus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Consts.h" />
@@ -72,6 +74,8 @@
     <ClInclude Include="includes\OnScrollSubject.h" />
     <ClInclude Include="includes\Willy.h" />
     <ClInclude Include="includes\MainMenu.h" />
+    <ClInclude Include="includes\Splash.h" />
+    <ClInclude Include="includes\Wumpus.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\box.fs" />

@@ -10,9 +10,8 @@ struct Room {
 	GLuint nearbyRooms[3];
 	GLboolean hasBat;
 	GLboolean hasHole;
-	GLboolean hasWumpus;
 
-	Room( const std::initializer_list<GLuint>& rooms ) : hasBat( GL_FALSE ), hasHole( GL_FALSE ), hasWumpus( GL_FALSE ) {
+	Room( const std::initializer_list<GLuint>& rooms ) : hasBat( GL_FALSE ), hasHole( GL_FALSE ) {
 		int i = 0;
 		for ( auto room : rooms ) {
 			nearbyRooms[i] = room;

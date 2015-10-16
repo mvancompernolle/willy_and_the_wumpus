@@ -18,10 +18,12 @@ struct StringToken{
 	std::string str;
 	GLfloat xPos;
 	GLuint lineNum;
-	StringToken( std::string s, GLfloat x, GLuint line ) {
+	glm::vec3 color;
+	StringToken( std::string s, GLfloat x, GLuint line, glm::vec3 c ) {
 		str = s;
 		xPos = x;
 		lineNum = line;
+		color = c;
 	}
 };
 
@@ -30,6 +32,7 @@ public:
 								Textbox( glm::vec2 pos, glm::vec2 size, GLuint borderSize, const font& fontType, GLfloat fontScale = 1.0f );
 								~Textbox();
 	void						addText( std::string newText, GLboolean newLine = GL_FALSE );
+	void						addText( std::string newText, glm::vec3 color, GLboolean newLine = GL_FALSE );
 	void						addNewLine();
 	void						clear();
 	void						setPadding( GLfloat horizontal, GLfloat vertical );
@@ -64,6 +67,7 @@ private:
 	void						updateScrollBar();
 	void						dragScrollBar();
 	GLboolean					isOverView( glm::vec2 pos ) const;
+	void						appendText( std::string newText, glm::vec3 color );
 };
 
 #endif // TEXTBOX_H

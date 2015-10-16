@@ -50,13 +50,33 @@ void Textbox::addText( std::string newText, GLboolean newLine ) {
 	if ( newText.size() == 0 )
 		return;
 
+	appendText( newText, textColor );
+
+	if ( newLine ) {
+		addNewLine();
+	}
+}
+
+void Textbox::addText( std::string newText, glm::vec3 color, GLboolean newLine ) {
+	if ( newText.size() == 0 )
+		return;
+
+	appendText( newText, color );
+
+	if ( newLine ) {
+		addNewLine();
+	}
+}
+
+void Textbox::appendText( std::string newText, glm::vec3 color ) {
+
 	// get edges
 	GLuint leftEdge = pos.x + paddingHorizontal + borderSize;
 	GLuint rightEdge = pos.x + size.x - paddingHorizontal - borderSize - btnSize.x;
 
 	// loop through each token of text
 	std::string delimiter = " ";
-	GLfloat delimOffset = getStringWidth(" ");
+	GLfloat delimOffset = getStringWidth( " " );
 	std::string token;
 	GLuint start = 0;
 	GLuint end = newText.find( delimiter );
@@ -71,7 +91,7 @@ void Textbox::addText( std::string newText, GLboolean newLine ) {
 		if ( leftEdge + currHorizontalOffset + width > rightEdge ) {
 			addNewLine();
 		}
-		tokens.push_back( StringToken( token, currHorizontalOffset, currentLineNumber ) );
+		tokens.push_back( StringToken( token, currHorizontalOffset, currentLineNumber, color ) );
 
 		// move horizontal offset
 		currHorizontalOffset += width + delimOffset;
@@ -85,18 +105,14 @@ void Textbox::addText( std::string newText, GLboolean newLine ) {
 	if ( leftEdge + currHorizontalOffset + width > rightEdge ) {
 		addNewLine();
 	}
-	tokens.push_back( StringToken( token, currHorizontalOffset, currentLineNumber ) );
+	tokens.push_back( StringToken( token, currHorizontalOffset, currentLineNumber, color ) );
 	currHorizontalOffset += width + delimOffset;
-
-	if ( newLine ) {
-		addNewLine();
-	}
 }
 
 void Textbox::addNewLine() {
 	currentLineNumber++;
 	currHorizontalOffset = 0.0f;
-	tokens.push_back( StringToken( "", currHorizontalOffset, currentLineNumber ) );
+	tokens.push_back( StringToken( "", currHorizontalOffset, currentLineNumber, textColor ) );
 	// any time a new line is added, go to bottom of textbox
 	firstLineInView = 0;
 	if ( currentLineNumber >= getNumLinesThatFit() ) {
@@ -150,7 +166,7 @@ void Textbox::render( Graphics& graphics ) {
 		StringToken& token = tokens[i];
 		GLfloat yPos = pos.y + paddingVertical + borderSize + fontType['H'].bearing.y * ( ( token.lineNum - firstLineInView ) * lineSpacing * fontScale );
 		graphics.renderText( fontType, sfw::string( token.str.c_str() ),
-			glm::vec2( pos.x + paddingHorizontal + borderSize + token.xPos, yPos ), fontScale, textColor );
+			glm::vec2( pos.x + paddingHorizontal + borderSize + token.xPos, yPos ), fontScale, token.color );
 	}
 
 	// render scroll buttons

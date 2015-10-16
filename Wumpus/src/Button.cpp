@@ -1,5 +1,6 @@
 #include "../includes/Button.h"
 #include "../includes/ResourceManager.h"
+#include "../includes/ServiceLocator.h"
 #include <iostream>
 
 
@@ -19,10 +20,11 @@ Button::~Button()
 
 void Button::onClick( glm::vec2 pos ) {
 	// check to see if button was click
-	if ( isOverButton(pos) ) {
+	if ( state != DISABLED && isOverButton(pos) ) {
 		state = PRESSED;
 
 		if ( onClickFunction ) {
+			ServiceLocator::getAudio().playSound( ResourceManager::getPath( "sounds" ) + "button_pressed.wav", GL_FALSE );
 			onClickFunction();
 		}
 	}
@@ -30,7 +32,7 @@ void Button::onClick( glm::vec2 pos ) {
 
 void Button::onRelease( glm::vec2 pos ) {
 	// perform release function if released over the button
-	if ( isOverButton(pos) ) {
+	if ( state != DISABLED && isOverButton(pos) ) {
 		state = HOVER;
 
 		if ( onReleaseFunction ) {
@@ -42,16 +44,18 @@ void Button::onRelease( glm::vec2 pos ) {
 }
 
 void Button::onMouseMovement( glm::vec2 pos ) {
-	if ( state != PRESSED ) {
+	if ( state != DISABLED ) {
+		if ( state != PRESSED ) {
 
-		if ( isOverButton( pos ) ) {
-			state = HOVER;
+			if ( isOverButton( pos ) ) {
+				state = HOVER;
+			} else {
+				state = RELEASED;
+			}
 		} else {
-			state = RELEASED;
-		}
-	} else {
-		if ( isDraggable && onMouseMovementFunction ) {
-			onMouseMovementFunction();
+			if ( isDraggable && onMouseMovementFunction ) {
+				onMouseMovementFunction();
+			}
 		}
 	}
 }
@@ -84,6 +88,16 @@ void Button::setSize( glm::vec2 s ) {
 
 glm::vec2 Button::getSize() const {
 	return size;
+}
+
+void Button::setVisible( GLboolean visible ) {
+	if ( !visible ) {
+		state = DISABLED;
+	} else if ( !isVisible ) {
+		state = RELEASED;
+	}
+	isVisible = visible;
+	
 }
 
 void Button::setRotation( GLuint rot ) {

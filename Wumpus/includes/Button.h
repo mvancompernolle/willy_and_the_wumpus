@@ -12,14 +12,12 @@
 enum ButtonState {
 	PRESSED,
 	RELEASED, 
-	HOVER
+	HOVER,
+	DISABLED
 };
 
 class Button : public OnClickObserver {
 public:
-	GLboolean				isVisible;
-
-
 							Button( glm::vec2 pos = glm::vec2(0.0f), glm::vec2 size = glm::vec2( 10.0f ) );
 							~Button();
 	virtual void			onClick( glm::vec2 pos );
@@ -32,6 +30,7 @@ public:
 	glm::vec2				getPos() const;
 	void					setSize( glm::vec2 s );
 	glm::vec2				getSize() const;
+	void					setVisible( GLboolean visible );
 	void					setRotation( GLuint rot );
 	void					setDraggable( GLboolean draggable );
 	void					render( Graphics& graphics );
@@ -45,6 +44,7 @@ private:
 	GLfloat					fontScale, rotation;
 	glm::vec3				textColor;
 	glm::vec2				pos, size;
+	GLboolean				isVisible;
 	Texture					releasedTexture, pressedTexture, hoverTexture;
 	GLboolean				isDraggable;
 
