@@ -48,6 +48,7 @@ void HuntTheWumpus::init() {
 
 	// init textbox
 	textBox.clear();
+	textBox.setBorderColor( glm::vec3( 0.0f ) );
 	textBox.addText( "Welcome to Willy and the Wumpus!", GL_TRUE );
 	textBox.addText( "-------------------------------------------------------------------", GL_TRUE );
 	textBox.addText( "It plays just like regular Hunt the Wumpus, but your name is Willy!", GL_TRUE );
@@ -66,9 +67,8 @@ void HuntTheWumpus::init() {
 		rooms[i].hasBat = rooms[i].hasHole = GL_FALSE;
 	}
 
-	// randomly choose where 2 bats are, 2 holes are, and the wumpus is
-	int room = rand() % 20;
-	wumpus.currentRoom = room;
+	// randomly choose where 2 bats are, 2 holes are
+	int room;
 	for ( int i = 0; i < 2; ++i ) {
 		room = rand() % 20;
 		while ( rooms[room].hasBat ) {
@@ -85,11 +85,19 @@ void HuntTheWumpus::init() {
 	}
 
 	// put player in room
-	room = rand() % 20;
-	while ( rooms[room].hasBat || room == wumpus.currentRoom || rooms[room].hasHole ) {
-		room = rand() % 20;
+	GLuint playerRoom = rand() % 20;
+	while ( rooms[playerRoom].hasBat || playerRoom == wumpus.currentRoom || rooms[playerRoom].hasHole ) {
+		playerRoom = rand() % 20;
 	}
-	willy.move( rooms, room, &wumpus, textBox );
+	willy.currentRoom = playerRoom;
+	// put wumpus at least 2 rooms away
+	wumpus.isAwake = GL_FALSE;
+	room = rand() % 20;
+	while ( willy.canSmellWumpus( rooms, &wumpus, playerRoom, -1, 1 ) ) {
+		wumpus.currentRoom = rand() % 20;
+	}
+
+	willy.move( rooms, playerRoom, &wumpus, textBox );
 
 	buttonsState = BUTTON_MAIN;
 	setOnClickFunctions();

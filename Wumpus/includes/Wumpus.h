@@ -17,7 +17,7 @@ public:
 
 					Wumpus();
 					~Wumpus();
-	GLboolean		update( Room rooms[], const Willy* willy, Textbox textBox );
+	GLboolean		update( Room rooms[], const Willy* willy, Textbox& textBox );
 };
 
 #endif // WUMPUS_H

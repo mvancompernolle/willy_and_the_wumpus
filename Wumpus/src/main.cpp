@@ -30,7 +30,7 @@ int main() {
 
 	// initialize services
 	input = new GLFWInput();
-	GLFWGraphics* gr = new GLFWGraphics( "Willy and the Wumpus", 1800, 980 );
+	GLFWGraphics* gr = new GLFWGraphics( "Willy and the Wumpus" );
 	Graphics *graphics = gr;
 	Audio* audio = new irrKlangAudio();
 
@@ -39,7 +39,7 @@ int main() {
 	ServiceLocator::provideAudio( audio );
 
 	// load default font
-	ResourceManager::loadFont( "times_new_roman.ttf", "default", 36.0f );
+	ResourceManager::loadFont( "FreeSans.ttf", "default", 36.0f );
 
 	// initialize mouse and keyboard
 	glfwSetInputMode( gr->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL );

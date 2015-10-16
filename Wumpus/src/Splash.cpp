@@ -4,7 +4,7 @@
 
 
 Splash::Splash( GLuint w, GLuint h )
-	: dt(0.0f), currentTime(0.0f), charCooldown(0.0f), title("Will and the Wumpus"), gameBy("By: Matthew VanCompernolle"),
+	: dt(0.0f), currentTime(0.0f), charCooldown(0.0f), title("Willy and the Wumpus"), gameBy("By: Matthew VanCompernolle"),
 	numTitleChars(0), numByChars(0), width(w), height(h)
 {
 }
