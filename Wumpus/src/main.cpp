@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <windows.h>
 #include "../includes/GLFWGraphics.h"
 #include "../includes/GLFWInput.h"
 #include "../includes/ResourceManager.h"
@@ -10,6 +11,7 @@
 #include "../includes/HuntTheWumpus.h"
 #include "../includes/MainMenu.h"
 #include "../includes/Splash.h"
+#include "../includes/Rules.h"
 #include "../includes/consts.h"
 
 // input callbacks
@@ -20,13 +22,13 @@ void scrollCallBack( GLFWwindow* window, GLdouble xOffset, GLdouble yOffset );
 
 Input* input;
 
-
 int main() {
 	// set resource paths
 	ResourceManager::setShaderPath( "resources/shaders/" );
 	ResourceManager::setTexturePath( "resources/textures/" );
 	ResourceManager::setPath( "fonts", "resources/fonts/" );
 	ResourceManager::setPath( "sounds", "resources/sounds/" );
+	ResourceManager::setPath( "text", "resources/text/" );
 
 	// initialize services
 	input = new GLFWInput();
@@ -53,6 +55,7 @@ int main() {
 	HuntTheWumpus* game = new HuntTheWumpus( gr->getDimensions().x, gr->getDimensions().y );
 	MainMenu menu( gr->getDimensions().x, gr->getDimensions().y );
 	Splash splash( gr->getDimensions().x, gr->getDimensions().y );
+	Rules rules( gr->getDimensions().x, gr->getDimensions().y );
 
 	// start the game loop
 	GLfloat dt = 0.0f, lastTime = 0.0f;
@@ -83,6 +86,20 @@ int main() {
 		case MAIN:
 			current = menu.getMenuState();
 			menu.render( dt );
+			if ( current == RULES_INIT ) {
+				rules.setPrevState( MAIN_INIT );
+			}
+			break;
+
+		case RULES_INIT:
+			rules.init();
+		case RULES:
+			current = rules.update();
+			rules.render();
+			// if continuing game, resync game input
+			if ( current == GAME ) {
+				game->syncInput();
+			}
 			break;
 
 		case PLAY:
@@ -90,9 +107,17 @@ int main() {
 		case GAME:
 			current = game->update( dt );
 			game->render( dt );
+			if ( current == RULES_INIT ) {
+				rules.setPrevState( GAME );
+			}
 			break;
 
 		case EXIT:
+			// show simple credits then exit
+			ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), "Thank you for playing!", glm::vec2( gr->getDimensions().x, gr->getDimensions().y ) / 2.0f,
+				3.0f, glm::vec3( 1.0f ), HOR_CENTERED, VERT_CENTERED );
+			graphics->swapBuffers();
+			Sleep(3000);
 			running = GL_FALSE;
 			break;
 		}
@@ -104,8 +129,7 @@ int main() {
 	delete input;
 	delete graphics;
 	delete audio;
-
-	//system( "pause" );
+	delete game;
 
 	return 0;
 }

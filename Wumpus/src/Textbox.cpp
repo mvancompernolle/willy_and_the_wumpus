@@ -149,6 +149,13 @@ void Textbox::setBackgroundColor( glm::vec3 color ) {
 	backgroundColor = color;
 }
 
+void Textbox::scrollToLine( GLuint lineNum ) {
+	if ( lineNum < 0 || lineNum < currentLineNumber + 1 - getNumLinesThatFit() ) {
+		firstLineInView = lineNum;
+		updateScrollBar();
+	}
+}
+
 void Textbox::render( Graphics& graphics ) {
 	// render border rectangle
 	graphics.draw2DBox( pos, size, borderColor );
@@ -287,4 +294,16 @@ void Textbox::dragScrollBar() {
 GLboolean Textbox::isOverView( glm::vec2 pos ) const {
 	return ( pos.x >= this->pos.x && pos.x <= this->pos.x + size.x
 		&& pos.y >= this->pos.y && pos.y <= this->pos.y + size.y );
+}
+
+std::fstream &operator<<( std::fstream &fs, const Textbox& t ) {
+	for ( int i = 0; i < t.tokens.size(); ++i ) {
+		if ( t.tokens[i].lineNum != 0 && i != 0 && t.tokens[i].lineNum != t.tokens[i-1].lineNum ) {
+			fs << std::endl;
+		} else {
+			fs << t.tokens[i].str << " ";
+		}
+
+	}
+	return fs;
 }

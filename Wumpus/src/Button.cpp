@@ -32,14 +32,16 @@ void Button::onClick( glm::vec2 pos ) {
 
 void Button::onRelease( glm::vec2 pos ) {
 	// perform release function if released over the button
-	if ( state != DISABLED && isOverButton(pos) ) {
-		state = HOVER;
+	if ( state != DISABLED ) {
+		if ( isOverButton( pos ) ) {
+			state = HOVER;
 
-		if ( onReleaseFunction ) {
-			onReleaseFunction();
+			if ( onReleaseFunction ) {
+				onReleaseFunction();
+			}
+		} else {
+			state = RELEASED;
 		}
-	} else {
-		state = RELEASED;
 	}
 }
 

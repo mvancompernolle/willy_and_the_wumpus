@@ -5,7 +5,7 @@
 
 #include <glm/glm.hpp>
 
-enum STATE { SPLASH, MAIN_INIT, MAIN, PLAY, GAME, EXIT };
+enum STATE { SPLASH, MAIN_INIT, RULES_INIT, RULES, MAIN, PLAY, GAME, EXIT };
 
 #define COLOR_INFO glm::vec3(0.0f, 0.0f, 1.0f)
 #define COLOR_ACTION glm::vec3(0.0f)

@@ -17,7 +17,7 @@ public:
 private:
 	STATE state;
 	GLuint width, height;
-	Button bPlay, bExit;
+	Button bPlay, bExit, bRules;
 };
 
 #endif // MAIN_MENU_H

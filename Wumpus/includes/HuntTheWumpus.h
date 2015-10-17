@@ -28,18 +28,19 @@ public:
 	void				render( GLfloat dt );
 	STATE				update( GLfloat dt );
 	void				init();
+	void				syncInput();
 private:
 	const GLint			NUM_ROOMS = 20;
 	Room				rooms[20];
 	Willy				willy;
 	Wumpus				wumpus;
 	Textbox				textBox;
-	Button				buttons[5];
+	Button				buttons[6];
 	GLuint				wumpusLocation;
 	GLboolean			wumpusAwake;
 	GLuint				width, height;
 	GLboolean			stateChanged, isWumpusTurn;
-	GLboolean			gameOver;
+	GLboolean			gameOver, isPaused;
 	BUTTON_STATE		buttonsState;
 	sfw::string			optionsString;
 

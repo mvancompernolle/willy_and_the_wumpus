@@ -7,9 +7,10 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "TextChar.h"
 #include "Button.h"
-#include "../includes/ScrollObserver.h"
+#include "ScrollObserver.h"
 
 
 class Graphics;
@@ -40,12 +41,15 @@ public:
 	void						setLineSpacing( GLfloat spacing );
 	void						setBorderColor( glm::vec3 color );
 	void						setBackgroundColor( glm::vec3 color );
+	void						scrollToLine( GLuint lineNum );
 	void						render( Graphics& graphics );
 	virtual	void				onClick( glm::vec2 pos );
 	virtual void				onRelease( glm::vec2 pos );
 	virtual void				onMouseMovement( glm::vec2 pos );
 	virtual void				onHorizontalScroll( GLfloat offset, glm::vec2 pos );
 	virtual void				onVerticalScroll( GLfloat offset, glm::vec2 pos );
+
+	friend						std::fstream &operator<<( std::fstream &fs, const Textbox& t );
 private:
 	glm::vec2					size;
 	glm::vec2					pos, btnSize;

@@ -7,12 +7,17 @@ MainMenu::MainMenu( GLuint w, GLuint h ) {
 	height = h;
 
 	// initialize buttons
-	bExit = Button( glm::vec2( width * 0.2f, height * 0.7f ), glm::vec2( width * 0.25f, height * 0.2f ) );
-	bPlay = Button( glm::vec2( width * 0.55f, height * 0.7f ), glm::vec2( width * 0.25f, height * 0.2f ) );
+	bExit = Button( glm::vec2( width * 0.1f, height * 0.7f ), glm::vec2( width * 0.2f, height * 0.2f ) );
+	bRules = Button( glm::vec2( width * 0.4f, height * 0.7f ), glm::vec2( width * 0.2f, height * 0.2f ) );
+	bPlay = Button( glm::vec2( width * 0.7f, height * 0.7f ), glm::vec2( width * 0.2f, height * 0.2f ) );
 	bExit.setText( "Exit Game" );
+	bRules.setText( "Rules" );
 	bPlay.setText( "Play Game" );
 	bExit.setOnClickFunction( [&]() {
 		state = EXIT;
+	} );
+	bRules.setOnClickFunction( [&] () {
+		state = RULES_INIT;
 	} );
 	bPlay.setOnClickFunction( [&]() {
 		state = PLAY;
@@ -34,13 +39,15 @@ void MainMenu::init() {
 	state = MAIN;
 	ServiceLocator::getInput().addOnClickObserver( &bPlay );
 	ServiceLocator::getInput().addOnClickObserver( &bExit );
+	ServiceLocator::getInput().addOnClickObserver( &bRules );
 }
 
 STATE MainMenu::getMenuState() {
-	if ( state == PLAY ) {
+	if ( state != MAIN ) {
 		// Unregister from input
 		ServiceLocator::getInput().removeOnClickObserver( &bExit );
 		ServiceLocator::getInput().removeOnClickObserver( &bPlay );
+		ServiceLocator::getInput().removeOnClickObserver( &bRules );
 	}
 	return state;
 }
@@ -51,6 +58,7 @@ void MainMenu::render( GLfloat dt ) {
 
 	// render buttons
 	bPlay.render( ServiceLocator::getGraphics() );
+	bRules.render( ServiceLocator::getGraphics() );
 	bExit.render( ServiceLocator::getGraphics() );
 
 	// render game title

@@ -4,6 +4,7 @@
 #include <ctime>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 
 HuntTheWumpus::HuntTheWumpus( GLuint width, GLuint height )
 	: width( width ), height( height ),
@@ -22,14 +23,31 @@ HuntTheWumpus::HuntTheWumpus( GLuint width, GLuint height )
 	// initialize buttons
 	GLfloat spaceBetween = 0.05f * height;
 	GLfloat buttonYSize = ( ( 0.8f * height - 4 * spaceBetween ) / 5.0f );
-	for ( int i = 0; i < 5; ++i ) {
+	for ( int i = 0; i < 4; ++i ) {
 		buttons[i].setSize( glm::vec2( width * 0.2f, buttonYSize ) );
 		buttons[i].setPos( glm::vec2( width * 0.75f, ( 0.1f * height + buttonYSize * i + spaceBetween * i ) ) );
 	}
+	buttons[4].setSize( glm::vec2( width * 0.09f, buttonYSize ) );
+	buttons[4].setPos( glm::vec2( width * 0.75f, ( 0.1f * height + ( buttonYSize + spaceBetween ) * 4 ) ) );
+	buttons[5].setSize( glm::vec2( width * 0.09f, buttonYSize ) );
+	buttons[5].setPos( glm::vec2( width * 0.86f, ( 0.1f * height + ( buttonYSize + spaceBetween ) * 4 ) ) );
 
-	buttons[4].setText( "Quit" );
-	buttons[4].setOnClickFunction( [&]() {
+	buttons[4].setText( "Rules" );
+	buttons[4].setOnClickFunction( [&] () {
+		isPaused = GL_TRUE;
+	} );
+	buttons[5].setText( "Quit" );
+	buttons[5].setOnClickFunction( [&]() {
 		gameOver = GL_TRUE;
+
+		// save the events of the current game
+		std::fstream lastGameFile( ResourceManager::getPath( "text" ) + "last_game.txt", std::ios_base::out );
+		if( lastGameFile.is_open() ){
+			lastGameFile << textBox;
+			lastGameFile.close();
+		} else {
+			std::cout << "Failed to save game results." << std::endl;
+		}
 	} );
 
 	// load background
@@ -44,6 +62,7 @@ HuntTheWumpus::~HuntTheWumpus() {
 
 void HuntTheWumpus::init() {
 	gameOver = GL_FALSE;
+	isPaused = GL_FALSE;
 	isWumpusTurn = GL_FALSE;
 
 	// init textbox
@@ -53,13 +72,8 @@ void HuntTheWumpus::init() {
 	textBox.addText( "-------------------------------------------------------------------", GL_TRUE );
 	textBox.addText( "It plays just like regular Hunt the Wumpus, but your name is Willy!", GL_TRUE );
 	textBox.addNewLine();
-	ServiceLocator::getInput().addOnClickObserver( &textBox );
-	ServiceLocator::getInput().addOnScrollObserver( &textBox );
 
-	// set listeners for buttons
-	for ( int i = 0; i < 5; ++i ) {
-		ServiceLocator::getInput().addOnClickObserver( &buttons[i] );
-	}
+	syncInput();
 
 	// initialize rooms
 	willy = Willy();
@@ -103,6 +117,17 @@ void HuntTheWumpus::init() {
 	setOnClickFunctions();
 }
 
+void HuntTheWumpus::syncInput() {
+	isPaused = GL_FALSE;
+	ServiceLocator::getInput().addOnClickObserver( &textBox );
+	ServiceLocator::getInput().addOnScrollObserver( &textBox );
+
+	// set listeners for buttons
+	for ( int i = 0; i < 6; ++i ) {
+		ServiceLocator::getInput().addOnClickObserver( &buttons[i] );
+	}
+}
+
 void HuntTheWumpus::render( GLfloat dt ) {
 
 	// render background
@@ -112,7 +137,7 @@ void HuntTheWumpus::render( GLfloat dt ) {
 	textBox.render( ServiceLocator::getGraphics() );
 
 	// render buttons
-	for ( int i = 0; i < 5; ++i ) {
+	for ( int i = 0; i < 6; ++i ) {
 		buttons[i].render( ServiceLocator::getGraphics() );
 	}
 
@@ -120,11 +145,11 @@ void HuntTheWumpus::render( GLfloat dt ) {
 	ServiceLocator::getGraphics().draw2DBox( glm::vec2( width * 0.05f, height * 0.025f ), glm::vec2( width * 0.65f, height * 0.05f ), glm::vec3( 0.0f ) );
 	std::stringstream ss;
 	ss << "Room: " << willy.currentRoom + 1;
-	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.075f, height * 0.05f ), 1.0f, glm::vec3( 1.0f ),
+	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.075f, height * 0.05f ), 0.8f, glm::vec3( 1.0f ),
 		LEFT_ALIGNED, VERT_CENTERED );
 	ss.str( std::string() );
 	ss << "Arrow Energy: " << willy.numArrows;
-	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.35f, height * 0.05f ), 1.0f, glm::vec3( 1.0f ),
+	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.35f, height * 0.05f ), 0.8f, glm::vec3( 1.0f ),
 		HOR_CENTERED, VERT_CENTERED );
 	ss.str( std::string() );
 	ss << "Arrow Path: ";
@@ -136,11 +161,11 @@ void HuntTheWumpus::render( GLfloat dt ) {
 			}
 		}
 	}
-	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.675f, height * 0.05f ), 1.0f, glm::vec3( 1.0f ),
+	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), ss.str().c_str(), glm::vec2( width * 0.675f, height * 0.05f ), 0.8f, glm::vec3( 1.0f ),
 		RIGHT_ALIGNED, VERT_CENTERED );
 
 	ServiceLocator::getGraphics().draw2DBox( glm::vec2( width * 0.75f, height * 0.025f ), glm::vec2( width * 0.2f, height * 0.05f ), glm::vec3( 0.0f ) );
-	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), optionsString.cstring(), glm::vec2( width * 0.85f, height * 0.05f ), 1.0f, glm::vec3( 1.0f ),
+	ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), optionsString.cstring(), glm::vec2( width * 0.85f, height * 0.05f ), 0.8f, glm::vec3( 1.0f ),
 		HOR_CENTERED, VERT_CENTERED );
 }
 
@@ -158,16 +183,20 @@ STATE HuntTheWumpus::update( GLfloat dt ) {
 	}
 
 
-	if ( !gameOver ) {
+	if ( !gameOver && !isPaused ) {
 		return GAME;
 	} else {
 		// unset listeners
 		ServiceLocator::getInput().removeOnClickObserver( &textBox );
 		ServiceLocator::getInput().removeOnScrollObserver( &textBox );
-		for ( int i = 0; i < 5; ++i ) {
+		for ( int i = 0; i < 6; ++i ) {
 			ServiceLocator::getInput().removeOnClickObserver( &buttons[i] );
 		}
-		return MAIN_INIT;
+		if ( isPaused ) {
+			return RULES_INIT;
+		} else {
+			return MAIN_INIT;
+		}
 	}
 }
 

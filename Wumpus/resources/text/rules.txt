@@ -1,0 +1,42 @@
+Rules for Willy and the Wumpus
+-------------------------------------------------------
+
+Objective:
+-------------------------------------------------------
+Your name is Willy and you have entered a cave to hunt and kill the infamous Wumpus. The only win condition is by shooting the Wumpus with an arrow, however there are several ways to lose.
+
+Map and Movement:
+-------------------------------------------------------
+The cave system is analogous to a squashed dodecahedron.
+There are exactly 20 rooms and every room leads into 3 other rooms.
+Willy starts in a random room that is safe.
+You move Willy by clicking the move button and then selecting which adjacent room you would like to move to.
+
+Hazards:
+-------------------------------------------------------
+There are 4 hazards in the rooms on the map.
+The hazards are placed randomly in the rooms, but 2 hazards of the same type cannot be in the same room.
+There are 2 super bat hazards in the cave. If you move into a room adjacent to a room with super bats, you will be informed by hearing a shriek. If you enter a room with a super bat you are randomly transported to another room, but the super bat remains in the same room.
+There are 2 holes in the cave. If you move into a room adjacent to a room with a hole, you will be informed by feeling a cold breeze. If you enter a room with a hole, you fall to your death and lose.
+If you enter a room that has a super bat and a hole, the super bat takes precedence. 
+
+The Wumpus:
+-------------------------------------------------------
+The Wumpus is a monster that starts in a random room at least 2 rooms away from Willy.
+The Wumpus begins the game asleep and is only woken up by the sound of Willy firing an arrow.
+If the Wumpus is awake, there is a 75% chance that the Wumpus will move to an adjacent room each turn.
+The Wumpus is too heavy to be affected by superbats and has suction feet so it cannot fall in holes.
+The player is informed that Wumpus is within 2 rooms of the player by a horrible stench.
+If Willy and Wumpus are ever in the same room, the Wumpus eats Willy and you lose.
+
+
+Shooting Arrows:
+-------------------------------------------------------
+Willy starts the game with 5 arrow energy.
+Willy can shoot an arrow by click the "Shoot an Arrow" button.
+Willy can then select a path for the arrow of up to 5 rooms, with each room the arrow passes through taking 1 arrow energy.
+To shoot the arrow down the selected path, click the "Fire Arrow" button.
+If the arrow passes through a room with a super bat, it kills it.
+If the arrow passes through the room Willy is in, you die and lose the game.
+If the arrow passes through the room where the Wumpus is, the Wumpus dies and you win!
+If you run out of arrow energy, there is no way to kill the Wumpus so you lose the game.

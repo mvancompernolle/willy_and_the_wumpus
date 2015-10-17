@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Rules.cpp" />
     <ClCompile Include="src\Splash.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\HuntTheWumpus.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="includes\MainMenu.h" />
     <ClInclude Include="includes\Splash.h" />
     <ClInclude Include="includes\Wumpus.h" />
+    <ClInclude Include="includes\Rules.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\box.fs" />
