@@ -2,4 +2,18 @@ Welcome to Willy and the Wumpus!
 ------------------------------------------------------------------- 
 It plays just like regular Hunt the Wumpus, but your name is Willy! 
 
-You moved into room 11! 
+You moved into room 17! 
+You hear a super bat shriek in a nearby room... 
+You moved into room 7! 
+You can smell a Wumpus somewhere nearby... 
+You moved into room 6! 
+You can smell a Wumpus somewhere nearby... 
+You fire an arrow! 
+The arrow zips into room 5. 
+The arrow zips into room 4. 
+The arrow drops to the ground and breaks. 
+The Wumpus heard your arrow and is now awake!!! 
+You fire an arrow! 
+The arrow zips into room 5. 
+The arrow zips into room 1. 
+You shot the Wumpus! You win... murderer... 

@@ -115,7 +115,7 @@ int main() {
 		case EXIT:
 			// show simple credits then exit
 			ServiceLocator::getGraphics().renderText( ResourceManager::getFont( "default" ), "Thank you for playing!", glm::vec2( gr->getDimensions().x, gr->getDimensions().y ) / 2.0f,
-				3.0f, glm::vec3( 1.0f ), HOR_CENTERED, VERT_CENTERED );
+				3.0f, glm::vec3( 1.0f, 0.0f, 1.0f ), HOR_CENTERED, VERT_CENTERED );
 			graphics->swapBuffers();
 			Sleep(3000);
 			running = GL_FALSE;
